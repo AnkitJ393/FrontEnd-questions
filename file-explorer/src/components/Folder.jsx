@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react'
 
-const Folder = ({handleInsertNode,explorer}) => {
+const Folder = ({handleRenameNode,handleDeleteNode,handleInsertNode,explorer}) => {
 
 
 const [expand,setExpand]=useState(false);
@@ -8,6 +9,9 @@ const  [showInput,setShowInput]=useState({
     visible:false,
     isFolder:null
 })
+
+const [rename,setRename]=useState(false);
+const [renameValue,setRenameValue]=useState(explorer.name);
 
 const handleNewFolder=(e,isFolder)=>{
     e.stopPropagation();
@@ -19,7 +23,7 @@ const handleNewFolder=(e,isFolder)=>{
 }
 
 const onAddFolder=(e)=>{
-    console.log(e.key)
+    
     if(e.key === "Enter" && e.target.value){
         handleInsertNode(explorer.id,e.target.value,showInput.isFolder);
         setShowInput({ ...showInput, visible: false });
@@ -27,15 +31,47 @@ const onAddFolder=(e)=>{
 
 }
 
+const deleteFolder=(e)=>{
+    e.stopPropagation();
+    handleDeleteNode(explorer.id);
+    setExpand(false)
+}
+
+const renameFolderFile=(e)=>{
+    e.stopPropagation();
+    setRename(prev=>!prev);
+}
+
+const onRenameFolder=(e)=>{
+    e.stopPropagation();
+    if(e.key === "Enter" && e.target.value){
+        handleRenameNode(explorer.id,e.target.value);
+        setRename(prev=>!prev);
+    }
+}
+
 
 if(explorer.isFolder){
     return (
         <div style={{marginTop:5}}>
             <div className='folder' onClick={()=>setExpand(!expand)}>
-                <span>📁 {explorer.name}</span>
+                {!rename ?
+                    <span >📁{explorer.name}</span> :
+                    <span>📁<input type='text' className="inputContainer__input"
+                           autoFocus value={renameValue} 
+                           onChange={(e)=>setRenameValue(prev=>e.target.value)}
+                           onBlur={(e)=>setRename(prev=>!prev)}
+                           onKeyDown={onRenameFolder}
+                       />
+                       </span>
+                    
+                 }
+                
                 <div>
                     <button onClick={(e)=>handleNewFolder(e,true)}>Folder +</button>
                     <button onClick={(e)=>handleNewFolder(e,false)}>File +</button>
+                   {explorer.id!==`1` &&  <button onClick={(e)=>deleteFolder(e)}>Delete 🗑️</button>}
+                   <button onClick={(e)=>renameFolderFile(e)}>Rename</button>
                 </div>
             </div>
 
@@ -58,7 +94,7 @@ if(explorer.isFolder){
 
 
             {explorer.items.map((item)=>(
-               <Folder handleInsertNode={handleInsertNode} explorer={item} key={item.id} />
+               <Folder  handleRenameNode={handleRenameNode} handleDeleteNode={handleDeleteNode} handleInsertNode={handleInsertNode} explorer={item} key={item.id} />
             ))}
         </div>
         
@@ -67,7 +103,24 @@ if(explorer.isFolder){
   )
     }
     else{
-        return <span className='file'>📄 {explorer.name}</span>
+        return   <div className='file'>
+            {!rename ?
+                    <span>📄 {explorer.name}</span> :
+                    
+                    <input type='text' className="inputContainer__input"
+                           autoFocus value={renameValue} 
+                           onChange={(e)=>setRenameValue(prev=>e.target.value)}
+                           onBlur={(e)=>setRename(prev=>!prev)}
+                           onKeyDown={onRenameFolder}
+                       />
+                    
+                 }
+            <div>
+                <button onClick={(e)=>deleteFolder(e)}>Delete 🗑️</button>
+                <button onClick={(e)=>renameFolderFile(e)}>Rename</button>
+                
+            </div>
+        </div>
     }
 }
 
