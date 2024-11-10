@@ -52,3 +52,68 @@
     bottom: 20px;
     left: 20px;
   }
+
+
+/* Example CSS animations */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+      transform: translateY(20px);
+      opacity: 0;
+  }
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+/* Popup animation */
+@keyframes popup {
+  0% {
+      transform: scale(0.8);
+      opacity: 0;
+  }
+  50% {
+      transform: scale(1.05);
+      opacity: 0.7;
+  }
+  100% {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.slideIn {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+.popup {
+  animation: popup 0.4s ease-out;
+}
+
+
+.notification-container {
+  display: flex;
+  /* Stack notifications from bottom to top */
+  align-items: flex-end; /* Align notifications to the right */
+}
+
+.notification-container.bottom {
+  flex-direction: column-reverse;
+}
+.notification-container.top {
+  flex-direction: column;
+}

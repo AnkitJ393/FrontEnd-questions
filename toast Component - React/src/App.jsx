@@ -1,11 +1,41 @@
 import React from 'react'
-import Notification from './components/notification'
 import useNotification from './hooks/useNotification'
 import './App.css'
 
+
+const notificationProps={
+  success:{
+    type: "success",
+    message: "This is a success message!",
+    duration: 3000,
+    animationType: "pop",
+  },
+  info:{
+    type: "info",
+    message: "This is an info message!",
+    duration: 3000,
+    animationType: "fade"
+  },
+  warning:{
+    type: "warning",
+    message: "This is a warning message!",
+    duration: 3000,
+    animationType: "slide"
+  },
+  error:{
+    type: "error",
+    message: "This is an error message!",
+    duration: 3000,
+    animationType: "pop"
+  }
+
+
+}
 const App = () => {
 
   const {NotificationComponent,triggerNotification}=useNotification('bottom-left');
+
+ 
 
   return (
     <div className='App'>
@@ -14,45 +44,28 @@ const App = () => {
       <div className="btns">
         <button
           onClick={() =>
-            triggerNotification({
-              type: "success",
-              message: "This is a success message!",
-              duration: 3000,
-              animation: "pop",
-            })
+            triggerNotification(notificationProps.success)
           }
         >
           Show Success
         </button>
         <button
           onClick={() =>
-            triggerNotification({
-              type: "info",
-              message: "This is an info message!",
-              duration: 3000,
-            })
+            triggerNotification(notificationProps.info)
           }
         >
           Show Info
         </button>
         <button
           onClick={() =>
-            triggerNotification({
-              type: "warning",
-              message: "This is a warning message!",
-              duration: 3000,
-            })
+            triggerNotification(notificationProps.warning)
           }
         >
           Show Warning
         </button>
         <button
           onClick={() =>
-            triggerNotification({
-              type: "error",
-              message: "This is an error message!",
-              duration: 3000,
-            })
+            triggerNotification(notificationProps.error)
           }
         >
           Show Error
