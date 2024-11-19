@@ -38,7 +38,7 @@ Array.prototype.myFlat=function(depth=1){
         }
     }
 
-    flatts(arr,0);
+    flatts(arr,0); 
 
     return results;
 }

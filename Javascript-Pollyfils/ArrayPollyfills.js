@@ -158,6 +158,54 @@ Array.prototype.myReducer=function(callback,initialVal){
 
 
 
-// ------------------------------ Slice  
-const r=arr.slice(1,3)
-console.log(r)
+// ---------------------------------------------------- Slice  
+// const r=arr.slice(1,3)
+
+
+Array.prototype.mySlice=function(start=0,end=this.length){
+    let len=this.length;
+    let results=[];
+
+    start=start<0 ? Math.max(start+len,0) : start;
+    end=end<0 ? Math.max(end+len,0) : Math.min(end,len);
+
+    for(let i=start;i<end;i++){
+        results.push(this[i]);
+    }
+
+    return results;
+}
+
+// console.log(arr.mySlice(1,-1));
+
+// --------------------------------------------------------SPLICE
+
+
+Array.prototype.mySplice=function(start,deleteCount,...items){
+    let result=[];
+    let len=this.length;
+
+    start=start<0?Math.max(len+start,0):Math.min(start,len);
+
+    deleteCount=deleteCount===undefined?len-start:Math.min(deleteCount,len-start);
+
+    for(let i=start;i<start+deleteCount;i++){
+        result.push(this[i]);
+    }
+
+    let before=this.slice(0,start);
+    let after=this.slice(start+deleteCount);
+
+    let newArr=[...before,...items,...after];
+
+    for(let i=0;i<newArr.length;i++){
+        this[i]=newArr[i];
+    }
+
+    this.length=newArr.length;
+
+    return result;
+}
+    //   arr.splice(start,deleteCount,...itemstoBeAdded);
+    arr.mySplice(1,2,'g','h');
+    console.log(arr);
